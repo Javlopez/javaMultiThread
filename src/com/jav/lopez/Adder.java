@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -27,8 +29,9 @@ public class Adder implements Runnable {
                 total += Integer.parseInt(line);
             }
 
+            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
             try(BufferedWriter writer = Files.newBufferedWriter(Paths.get(outFile))){
-                writer.write("Total: " + total);
+                writer.write("Total: " + total + " - Time:" + timeStamp);
             }
         }
     }
