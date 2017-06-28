@@ -11,15 +11,12 @@ public class Main {
         String[] outFiles = {"files/file1.out.txt", "files/file2.out.txt", "files/file3.out.txt", "files/file4.out.txt", "files/file5.out.txt"};
 
 
-        try {
-            for (int i = 0; i < inFiles.length; i++) {
 
-                Adder adder = new Adder(inFiles[i], outFiles[i]);
-                adder.doAdd();
+        for (int i = 0; i < inFiles.length; i++) {
 
-            }
-        }catch (IOException e) {
-            System.out.println("Something happened");
+            Adder adder = new Adder(inFiles[i], outFiles[i]);
+            Thread thread = new Thread(adder);
+            thread.start();
         }
     }
 }

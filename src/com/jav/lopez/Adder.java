@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 /**
  *
  */
-public class Adder {
+public class Adder implements Runnable {
 
     private String inFile, outFile;
 
@@ -31,6 +31,16 @@ public class Adder {
                 writer.write("Total: " + total);
             }
         }
+    }
+
+    public void run() {
+
+        try {
+            doAdd();
+        }catch (IOException e) {
+
+        }
+
     }
 
 
