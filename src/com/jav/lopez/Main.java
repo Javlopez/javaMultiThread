@@ -1,9 +1,7 @@
 package com.jav.lopez;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class Main {
 
@@ -17,18 +15,35 @@ public class Main {
         //Thread[] threads = new Thread[inFiles.length];
 
         ExecutorService es = Executors.newFixedThreadPool(3);
+        Future<Integer>[] results = new Future[inFiles.length];
 
 
 
         for (int i = 0; i < inFiles.length; i++) {
 
             Adder adder = new Adder(inFiles[i], outFiles[i]);
-            es.submit(adder);
+            //es.submit(adder);
+            results[i] = es.submit(adder);
 
             //threads[i] = new Thread(adder);
             //threads[i].start();
         }
 
+        for(Future<Integer> result:results) {
+            try {
+                int value = result.get();
+                System.out.println("Total:" + value);
+            } catch (ExecutionException e) {
+                Throwable adderException = e.getCause(); // Get adder Exception
+
+                System.out.println("Something happened here ExecutionException" );
+            } catch (Exception e) {
+                System.out.println("Something happened here Normal Exception" );
+            }
+
+        }
+
+        /*
 
         try {
             es.shutdown();
@@ -36,6 +51,6 @@ public class Main {
 
         }catch (InterruptedException e) {
             System.out.println("the application is failing " + e.getMessage());
-        }
+        }*/
     }
 }

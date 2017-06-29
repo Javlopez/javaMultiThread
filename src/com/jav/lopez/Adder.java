@@ -7,11 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.Callable;
 
 /**
  *
  */
-public class Adder implements Runnable {
+public class Adder implements Callable <Integer> {
 
     private String inFile, outFile;
 
@@ -20,7 +21,7 @@ public class Adder implements Runnable {
         this.outFile = outFile;
     }
 
-    public void doAdd() throws IOException {
+    public int doAdd() throws IOException {
         int total = 0;
         String line = null;
 
@@ -28,22 +29,12 @@ public class Adder implements Runnable {
             while((line = reader.readLine()) != null) {
                 total += Integer.parseInt(line);
             }
-
-            String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-            try(BufferedWriter writer = Files.newBufferedWriter(Paths.get(outFile))){
-                writer.write("Total: " + total + " - Time:" + timeStamp);
-            }
         }
+        return total;
     }
 
-    public void run() {
-
-        try {
-            doAdd();
-        }catch (IOException e) {
-
-        }
-
+    public Integer call() throws IOException {
+        return doAdd();
     }
 
 
